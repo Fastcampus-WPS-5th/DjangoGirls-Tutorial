@@ -19,6 +19,8 @@ print('BASE_DIR:', BASE_DIR)
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 print('TEMPLATE_DIR:', TEMPLATE_DIR)
 
+# 위와 같은 방법으로 django_app/static폴더의 경로를 STATIC_DIR에 할당
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -30,7 +32,6 @@ SECRET_KEY = '%3=jwb5cjl&3_o_doz+$p1)pqn758#mewv$3rm$-s3^m!s1!=0'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -76,7 +77,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -86,7 +86,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -106,7 +105,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -120,8 +118,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+# 이 경로로 시작하는 URL은 정적파일들의 위치에서 파일을 찾아 리턴
 STATIC_URL = '/static/'
+
+# 이 리스트(또는 튜플)의 경로는 STATIC_URL로 요청된 파일을 찾는 폴더로 사용됨
+STATICFILES_DIRS = (
+    STATIC_DIR,
+)
