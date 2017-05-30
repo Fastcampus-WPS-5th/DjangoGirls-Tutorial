@@ -20,4 +20,10 @@ from blog import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.post_list),
+    # o /post/1/
+    # o /post/35/
+    # o /post/234/
+    # x /post/234/asdf/
+    # /post/로 시작하고 중간에 숫자1개 이상을 가지고, /로 끝나는 정규표현식을 작성
+    url(r'^post/(?P<pk>\d+)/$', views.post_detail),
 ]
