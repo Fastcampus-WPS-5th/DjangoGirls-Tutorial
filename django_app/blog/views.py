@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 
 from .models import Post
+from .forms import PostCreateForm
 
 User = get_user_model()
 
@@ -40,18 +41,28 @@ def post_detail(request, pk):
 
 def post_create(request):
     if request.method == 'GET':
+        form = PostCreateForm()
         context = {
-
+            'form': form,
         }
         return render(request, 'blog/post_create.html', context)
     elif request.method == 'POST':
-        data = request.POST
-        title = data['title']
-        text = data['text']
-        user = User.objects.first()
-        post = Post.objects.create(
-            title=title,
-            text=text,
-            author=user
-        )
-        return redirect('post_detail', pk=post.pk)
+        # Form클래스의 생성자에 POST데이터를 전달하여 Form인스턴스를 생성
+        form = PostCreateForm(request.POST)
+        # Form인스턴스의 유효성을 검사하는 is_valid메서드
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            text = form.cleaned_data['text']
+            user = User.objects.first()
+            post = Post.objects.create(
+                title=title,
+                text=text,
+                author=user
+            )
+            return redirect('post_detail', pk=post.pk)
+        # 유효성 검사를 통과하지 못했을경우 error가 담긴 form을 이용해 기존페이지를 보여줌
+        else:
+            context = {
+                'form': form,
+            }
+            return render(request, 'blog/post_create.html', context)
