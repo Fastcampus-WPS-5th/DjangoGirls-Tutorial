@@ -8,6 +8,11 @@
 		<h4><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h4>
 		<p class="text-right"><small>published: {{ post.published_date }}</small></p>
 		<p>{{ post.text|truncatechars:120 }}</p>
+		<a href="{% url 'post_modify' post.pk %}" class="btn btn-primary">편집</a>
+		<form action="{% url 'post_delete' post.pk %}" method="POST">
+			{% csrf_token %}
+			<button type="submit" class="btn btn-danger">삭제</button>
+		</form>
 	</div>
 	{% endfor %}
 </div>
